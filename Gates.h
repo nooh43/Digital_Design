@@ -16,19 +16,25 @@ class Gates {
 /* Public member Functions */
 public:
 	Gates();
-	Gates(string ,string , string);
-	virtual ~Gates();
+	Gates(string, string ,string , string);
+	~Gates();
+	/* Setters */
 	void SetFirst(string boxFirst);
 	void SetSecond(string boxSecond);
 	void SetOutput(string boxOutput);
+	void SetType(string boxType);
+	/* Getters */
 	string GetFirst() const;
 	string GetSecond() const;
 	string GetOutput() const;
+	string GetType() const;
+	/* Helpers */
 	void PrintGate() const;
 	void Calculate() const;
 
 /* Private data members */
 private:
+	string type;
 	string firstInput;
 	string secondInput;
 	string output;
