@@ -16,6 +16,7 @@ int main() {
 	char desicion = 'y';
 	string box;
 	string boxName;
+	string type;
 	string firstInput;
 	string secondInput;
 	string output;
@@ -40,20 +41,20 @@ int main() {
 			cout << endl;
 
 			/* Finding the box's name */
-			boxName = box.substr(0, box.find('('));
+			type = box.substr(0, box.find('('));
+			boxName = type;
 
 			/* First input */
 			firstInput = box.substr(box.find('(') + 1, box.find(',') - box.find('(') - 1);
 			/* Second input */
-			secondInput = box.substr(boxName.length() + firstInput.length() + 2, box.find(',' , (firstInput.length() +  boxName.length() + 2)) - (boxName.length() + firstInput.length() + 2));
+			secondInput = box.substr(type.length() + firstInput.length() + 2, box.find(',' , (firstInput.length() +  type.length() + 2)) - (type.length() + firstInput.length() + 2));
 			/* Find output */
-			output = box.substr(boxName.length() + firstInput.length() + secondInput.length() + 3, box.length() - (boxName.length() + firstInput.length() + secondInput.length() + 4));
+			output = box.substr(type.length() + firstInput.length() + secondInput.length() + 3, box.length() - (type.length() + firstInput.length() + secondInput.length() + 4));
 
 			/* initial an object */
-			Gates boxName(firstInput, secondInput, output);
+			Gates boxName(type, firstInput, secondInput, output);
 			boxName.Calculate();
 			// boxName.PrintGate();
-			// cout << endl << endl;
 
 		}
 
