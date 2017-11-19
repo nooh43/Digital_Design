@@ -1,4 +1,3 @@
-
 /*
  * function.cpp
  *
@@ -10,6 +9,9 @@ using namespace std;
 /* Libraries included */
 #include <iostream>
 #include "Gates.h"
+#include <fstream>
+using std::ofstream;
+using std::ios;
 
 Gates::Gates() {
 	type = "";
@@ -67,37 +69,49 @@ string Gates::GetOutput() const {
 }
 
 /* Helpers */
-void Gates::PrintGate() const {
-	cout << "        __________" << endl;
-	cout << "       |          |" << endl;
-	cout << "  " << GetFirst() <<" -->|          |" << endl;
-	cout << "       |    M1    |--> " << GetOutput() << endl;
-	cout << "  " << GetSecond() <<" -->|          |" << endl;
-	cout << "       |__________|" << endl;
-	return;
-}
-
 void Gates::Calculate() const {
-	string functionName;
+	/* Parameters */
 	string functionContents;
 	string typeOfBox;
 
+	/* Equations File */
+	ofstream equationsF;
+	equationsF.open("equations.txt", ios::app);
+
+	/* Printed File */
+	ofstream printedF;
+	printedF.open("printed.txt", ios::app);
+
+	/* If it is an M Gate */
 	if (GetType().substr(0, 1) == "M" || GetType().substr(0, 1) == "m") {
+		/* initializing the type */
 		typeOfBox = "M";
-		functionName = "f(" + GetOutput() + ") = ";
-		cout << functionName;
-		functionContents = GetFirst() + " X " + GetSecond();
-		cout << functionContents;
-		cout << endl << endl;
+		/* Writing out the function */
+		functionContents = GetOutput() + " = " + GetFirst() + " X " + GetSecond();
 	}
+
+	/* If it is an NM Gate */
 	else {
 		typeOfBox = "NM";
-		functionName = "f(" + GetOutput() + ") = ";
-		cout << functionName;
-		functionContents = "1 - " + GetFirst() + " X " + GetSecond();
-		cout << functionContents;
-		cout << endl << endl;
+		functionContents = GetOutput() + " = " + "1 - " + GetFirst() + " x " + GetSecond();
+		equationsF << functionContents << endl;
+		cout << endl;
 	}
+
+	/* saving the equation inside the file */
+	equationsF << functionContents << endl;
+
+	/* Printing the function a gate box */
+	printedF << "        __________" << endl;
+	printedF << "       |          |" << endl;
+	printedF << "  " << GetFirst() <<" -->|          |" << endl;
+	printedF << "       |    " << GetType() << "    |--> " << GetOutput() << endl;
+	printedF << "  " << GetSecond() <<" -->|          |" << endl;
+	printedF << "       |__________|" << endl << endl;
+
+	/* Closing the Files */
+	equationsF.close();
+	printedF.close();
 
 	return;
 }
