@@ -27,7 +27,7 @@ int main() {
 	while (desicion == 'y') {
 
 		/* First question */
-		cout << "Would you like to add a new box ? ( Type 'y' for yes and 'n' for no )" << endl;
+		cout << "Would you like to add a new box ? ( Type 'y' for yes and 'n' for no ) ";
 		cin >> desicion;
 		cout << endl;
 
@@ -59,9 +59,9 @@ int main() {
 
 		/* If he disagrees */
 		else {
-			cout << endl << endl << endl;
-			cout << "Would you like to start over? ( Type 'y' for yes and 'n' for no )" << endl;
+			cout << "Would you like to start over? ( Type 'y' for yes and 'n' for no ) ";
 			cin >> desicion;
+			cout << endl;
 		}
 	}
 
