@@ -29,7 +29,6 @@ public:
 	string GetOutput() const;
 	string GetType() const;
 	/* Helpers */
-	void PrintGate() const;
 	void Calculate() const;
 
 /* Private data members */
