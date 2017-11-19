@@ -12,15 +12,26 @@ using namespace std;
 #include "Gates.h"
 
 Gates::Gates() {
+	type = "";
 	firstInput = "";
 	secondInput = "";
 	output = "";
 }
 
-Gates::Gates(string first, string second, string out) {
+Gates::Gates(string typ,string first, string second, string out) {
+	type = typ;
 	firstInput = first;
 	secondInput = second;
 	output = out;
+}
+
+Gates::~Gates() {
+}
+
+/* Setters */
+void Gates::SetType(string typeToSet) {
+  type = typeToSet;
+  return;
 }
 
 void Gates::SetFirst(string firstToSet) {
@@ -28,17 +39,9 @@ void Gates::SetFirst(string firstToSet) {
   return;
 }
 
-string Gates::GetFirst() const {
-  return firstInput;
-}
-
 void Gates::SetSecond(string secondToSet) {
   secondInput = secondToSet;
   return;
-}
-
-string Gates::GetSecond() const {
-  return secondInput;
 }
 
 void Gates::SetOutput(string outputToSet) {
@@ -46,13 +49,24 @@ void Gates::SetOutput(string outputToSet) {
   return;
 }
 
+/* Getters */
+string Gates::GetType() const {
+  return type;
+}
+
+string Gates::GetFirst() const {
+  return firstInput;
+}
+
+string Gates::GetSecond() const {
+  return secondInput;
+}
+
 string Gates::GetOutput() const {
   return output;
 }
 
-Gates::~Gates() {
-}
-
+/* Helpers */
 void Gates::PrintGate() const {
 	cout << "        __________" << endl;
 	cout << "       |          |" << endl;
@@ -66,10 +80,24 @@ void Gates::PrintGate() const {
 void Gates::Calculate() const {
 	string functionName;
 	string functionContents;
-	functionName = "f(" + GetOutput() + ") = ";
-	cout << functionName;
-	functionContents = GetFirst() + " X " + GetSecond();
-	cout << functionContents;
-	cout << endl << endl;
+	string typeOfBox;
+
+	if (GetType().substr(0, 1) == "M" || GetType().substr(0, 1) == "m") {
+		typeOfBox = "M";
+		functionName = "f(" + GetOutput() + ") = ";
+		cout << functionName;
+		functionContents = GetFirst() + " X " + GetSecond();
+		cout << functionContents;
+		cout << endl << endl;
+	}
+	else {
+		typeOfBox = "NM";
+		functionName = "f(" + GetOutput() + ") = ";
+		cout << functionName;
+		functionContents = "1 - " + GetFirst() + " X " + GetSecond();
+		cout << functionContents;
+		cout << endl << endl;
+	}
+
 	return;
 }
