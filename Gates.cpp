@@ -1,3 +1,4 @@
+
 /*
  * function.cpp
  *
@@ -87,27 +88,33 @@ void Gates::Calculate() const {
 		/* initializing the type */
 		typeOfBox = "M";
 		/* Writing out the function */
-		functionContents = GetOutput() + " = " + GetFirst() + " X " + GetSecond();
+		functionContents = GetOutput() + " = " + GetFirst() + "." + GetSecond();
 	}
 
 	/* If it is an NM Gate */
 	else {
+		/* initializing the type */
 		typeOfBox = "NM";
-		functionContents = GetOutput() + " = " + "1 - " + GetFirst() + " x " + GetSecond();
-		equationsF << functionContents << endl;
-		cout << endl;
+		/* Writing out the function */
+		functionContents = GetOutput() + " = " + "1-(" + GetFirst() + "." + GetSecond() + ")";
 	}
 
 	/* saving the equation inside the file */
 	equationsF << functionContents << endl;
 
 	/* Printing the function a gate box */
-	printedF << "        __________" << endl;
-	printedF << "       |          |" << endl;
-	printedF << "  " << GetFirst() <<" -->|          |" << endl;
-	printedF << "       |    " << GetType() << "    |--> " << GetOutput() << endl;
-	printedF << "  " << GetSecond() <<" -->|          |" << endl;
-	printedF << "       |__________|" << endl << endl;
+	if (typeOfBox == "NM") {
+		printedF << "        ________" << endl;
+		printedF << "  " << GetFirst() <<" -->|        |" << endl;
+		printedF << "       |   " << GetType() << "  |--> " << GetOutput() << endl;
+		printedF << "  " << GetSecond() <<" -->|________|" << endl << endl;
+	}
+	else {
+		printedF << "        ________" << endl;
+		printedF << "  " << GetFirst() <<" -->|        |" << endl;
+		printedF << "       |   " << GetType() << "   |--> " << GetOutput() << endl;
+		printedF << "  " << GetSecond() <<" -->|________|" << endl << endl;
+	}
 
 	/* Closing the Files */
 	equationsF.close();
