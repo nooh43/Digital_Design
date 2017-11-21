@@ -9,8 +9,15 @@
 #include <iostream>
 #include "Gates.h"
 #include <fstream>
+#include <sstream>
 using namespace std;
 
+/* Struct */
+struct Equation {
+	string key;
+	string value1;
+	string value2;
+};
 
 int main() {
 
@@ -45,7 +52,6 @@ int main() {
 			/* Naming the box */
 			cout << "Please type in your box's details: ";
 			cin >> box;
-			cout << endl;
 
 			/* setting up the box's name */
 			type = box.substr(0, box.find('('));
@@ -61,7 +67,7 @@ int main() {
 			boxName.Calculate();
 
 			/* Box added - return */
-			cout << "added successfully." << endl << endl;
+			cout << "added successfully." << endl;
 			command = "default";
 		}
 
@@ -134,7 +140,73 @@ int main() {
 
 		/* Solving as one function */
 		else if (command == "solve") {
-			cout << "solve done." << endl;
+
+			/* Parameters */
+			string line;
+			char operatorIs='.'; // operation
+			int count = 0; // number of equations
+			Equation* equation = new Equation[50];
+			int columnCount = 0;
+
+			/* Opening File */
+			ifstream equationsO;
+			equationsO.open("equations.txt");
+
+			/* if the file doesn't exist */
+			if (!equationsO.is_open()) {
+				cout << "Sorry, we could not find the equation file." << endl;
+				return 1;
+			}
+
+			/* Getting the data from the equation file */
+			while(getline(equationsO, line,'\n') ) {
+
+				/* Streaming to other variables */
+				stringstream ss(line);
+				columnCount = 0;
+
+				while ( getline(ss, line, ' ') ) {
+
+					columnCount++;
+
+					if (columnCount == 1) {
+						equation[count].key = line;
+					}
+
+					else if (columnCount == 3) {
+						equation[count].value1 = line.substr(0, line.find(operatorIs))[0];
+						line = line.substr(line.find(operatorIs)+1, line.length());
+						equation[count].value2=line;
+					}
+				}
+				count++;
+			}
+
+			/* Closing the file */
+			equationsO.close();
+
+			/* Looping the answer */
+			int i = 0;
+			int j = 0;
+			for (i = 0; i <= count; i++) {
+
+				for(j=0;j<i;j++) {
+
+					if (equation[j].key == equation[i].value1) {
+						equation[i].value1 = equation[j].value1 + operatorIs + equation[j].value2;
+					}
+
+					if (equation[j].key == equation[i].value2) {
+						equation[i].value2 = equation[j].value1 + operatorIs + equation[j].value2;
+					}
+				}
+			}
+
+			for (i = 0; i < count; i++) {
+				cout << equation[i].key << " = " << equation[i].value1 << operatorIs << equation[i].value2 << endl;
+			}
+
+
 			command = "default";
 		}
 
